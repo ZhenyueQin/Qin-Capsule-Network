@@ -6,6 +6,8 @@ from deap import tools
 
 import numpy as np
 
+import pickle
+
 
 caps_net_performance_dict = {}
 
@@ -76,6 +78,7 @@ def main():
     for ind, fit in zip(pop, fitnesses):
         ind.fitness.values = fit
 
+    logbook = tools.Logbook()
     for g in range(NGEN):
         print("generation: ", g)
         # Select the next generation individuals
@@ -106,6 +109,12 @@ def main():
         record = stats.compile(pop)
         print(record)
 
+        logbook.record(gen=g, **record)
+
+        tmp_file_name = 'generation_' + str(g) + '.txt'
+        f = open(str(g), "w+")
+        import pickle
+        pickle.dump(logbook, tmp_file_name)
     return pop
 
 

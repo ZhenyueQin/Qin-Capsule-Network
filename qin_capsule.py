@@ -267,11 +267,11 @@ with tf.Session() as sess:
     else:
         init.run()
 
-    #     for epoch in range(n_epochs):
-    for epoch in range(2):
+    for epoch in range(n_epochs):
+    # for epoch in range(2):
         print("epoch: ", epoch)
-        #         for batch_i in range(len(training_batched_data)):
-        for batch_i in range(2):
+        for batch_i in range(len(training_batched_data)):
+        # for batch_i in range(2):
             if batch_i % 100 == 0:
                 print("batch: ", batch_i)
             _, loss_train = sess.run(
@@ -284,8 +284,9 @@ with tf.Session() as sess:
         # measure the validation loss and accuracy:
         loss_vals = []
         acc_vals = []
-        #         for batch_i in range(len(testing_batched_data)):
-        for batch_i in range(2):
+
+        for batch_i in range(len(testing_batched_data)):
+        # for batch_i in range(2):
             loss_val, acc_val = sess.run(
                 [loss, accuracy],
                 feed_dict={X: testing_batched_data[batch_i].reshape([-1, 32, 32, 3]),
