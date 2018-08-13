@@ -110,13 +110,13 @@ def main():
         record = stats.compile(pop)
         print(record)
 
-        tmp_file_name_1 = 'generation_' + str(g) + '.txt'
+        tmp_file_name_1 = './' + 'generation_' + str(g) + '.txt'
         with open(tmp_file_name_1, 'a') as out:
             out.write(str(record))
 
         logbook.record(gen=g, **record)
 
-        tmp_file_name_2 = 'generation_' + str(g) + '.pk'
+        tmp_file_name_2 = './' + 'generation_' + str(g) + '.pk'
         import pickle
         with open(tmp_file_name_2, 'wb') as handle:
             pickle.dump(logbook, handle)

@@ -291,7 +291,7 @@ class QinCapsNet:
                     best_loss_val = loss_val
                     print("Model saved in path: %s" % save_path)
 
-            tmp_file_name = str(self.caps1_n_maps) + '_' + str(self.caps1_n_dims) + '_' + str(self.caps2_n_dims) + \
+            tmp_file_name = './' + str(self.caps1_n_maps) + '_' + str(self.caps1_n_dims) + '_' + str(self.caps2_n_dims) + \
                             '.txt'
             with open(tmp_file_name, 'a') as out:
                 out.write(str(acc_val))
