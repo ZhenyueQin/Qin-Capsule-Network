@@ -6,8 +6,6 @@ from deap import tools
 
 import numpy as np
 
-import pickle
-
 
 caps_net_performance_dict = {}
 
@@ -87,12 +85,14 @@ def main():
         offspring = list(map(toolbox.clone, offspring))
 
         # Apply crossover and mutation on the offspring
+        print("Crossovering")
         for child1, child2 in zip(offspring[::2], offspring[1::2]):
             if random.random() < CXPB:
                 toolbox.mate(child1, child2)
                 del child1.fitness.values
                 del child2.fitness.values
 
+        print("Mutating")
         for mutant in offspring:
             if random.random() < MUTPB:
                 toolbox.mutate(mutant)
@@ -106,15 +106,20 @@ def main():
 
         # The population is entirely replaced by the offspring
         pop[:] = offspring
+
         record = stats.compile(pop)
         print(record)
 
+        tmp_file_name_1 = 'generation_' + str(g) + '.txt'
+        with open(tmp_file_name_1, 'a') as out:
+            out.write(str(record))
+
         logbook.record(gen=g, **record)
 
-        tmp_file_name = 'generation_' + str(g) + '.txt'
-        f = open(str(g), "w+")
+        tmp_file_name_2 = 'generation_' + str(g) + '.pk'
         import pickle
-        pickle.dump(logbook, tmp_file_name)
+        with open(tmp_file_name_2, 'wb') as handle:
+            pickle.dump(logbook, handle)
     return pop
 
 

@@ -249,9 +249,10 @@ class QinCapsNet:
             else:
                 init.run()
 
-            for epoch in range(self.n_epochs):
             # for epoch in range(1):
+            for epoch in range(self.n_epochs):
                 print("epoch: ", epoch)
+
                 for batch_i in range(len(training_batched_data)):
                 # for batch_i in range(1):
                     if batch_i % 50 == 0:
@@ -266,6 +267,7 @@ class QinCapsNet:
                 # measure the validation loss and accuracy:
                 loss_vals = []
                 acc_vals = []
+
                 for batch_i in range(len(testing_batched_data)):
                 # for batch_i in range(1):
                     loss_val, acc_val = sess.run(
