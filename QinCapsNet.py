@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import cifar10
-from google.colab import files
+# from google.colab import files
 
 
 def squash(s, axis=-1, epsilon=1e-7, name=None):
@@ -290,6 +290,6 @@ class QinCapsNet:
 
             return acc_val
 
-            files.download(checkpoint_path + '.data-00000-of-00001')
-            files.download(checkpoint_path + '.index')
-            files.download(checkpoint_path + '.meta')
+            # files.download(checkpoint_path + '.data-00000-of-00001')
+            # files.download(checkpoint_path + '.index')
+            # files.download(checkpoint_path + '.meta')
