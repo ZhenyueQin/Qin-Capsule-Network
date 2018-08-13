@@ -58,6 +58,7 @@ class QinCapsNet:
         self.load_data()
 
     def load_data(self):
+        cifar10.maybe_download_and_extract()
         self.images_train, self.cls_train, self.labels_train = cifar10.load_training_data()
         self.images_test, self.cls_test, self.labels_test = cifar10.load_test_data()
 
