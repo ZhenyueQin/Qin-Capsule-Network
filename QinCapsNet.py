@@ -240,7 +240,7 @@ class QinCapsNet:
 
         save_suffix = '_' + str(self.caps1_n_maps) + '_' + str(self.caps1_n_dims) + '_' + str(self.caps2_n_dims)
 
-        checkpoint_path = "./qin_capsule_network.ckpt" + save_suffix
+        checkpoint_path = "./generated_files/qin_capsule_network.ckpt" + save_suffix
 
         with tf.Session() as sess:
             if self.restore_checkpoint and tf.train.checkpoint_exists(checkpoint_path):
@@ -291,7 +291,7 @@ class QinCapsNet:
                     best_loss_val = loss_val
                     print("Model saved in path: %s" % save_path)
 
-            tmp_file_name = './' + str(self.caps1_n_maps) + '_' + str(self.caps1_n_dims) + '_' + str(self.caps2_n_dims) + \
+            tmp_file_name = './generated_files/' + str(self.caps1_n_maps) + '_' + str(self.caps1_n_dims) + '_' + str(self.caps2_n_dims) + \
                             '.txt'
             with open(tmp_file_name, 'a') as out:
                 out.write(str(acc_val))

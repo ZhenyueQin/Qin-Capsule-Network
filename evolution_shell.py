@@ -1,6 +1,8 @@
 from deap import base, creator
 import random
 from QinCapsNet import QinCapsNet
+import os
+import glob
 
 from deap import tools
 
@@ -8,6 +10,33 @@ import numpy as np
 
 
 caps_net_performance_dict = {}
+prev_inds = []
+prev_inds_fit = []
+
+
+def fill_caps_net_performance_dict():
+    files = glob.glob('generated_files/' + '*.txt')
+    files.sort(key=os.path.getmtime)
+
+    for a_file in files:
+        a_tmp_file_0 = a_file.replace('generated_files/', '')
+        if a_tmp_file_0.endswith(".txt") and a_tmp_file_0[0] != 'g':
+            tmp_filename = a_tmp_file_0.replace('.txt', '')
+            a_f = open('generated_files' + os.sep + a_tmp_file_0, 'r')
+            split = tmp_filename.split('_')
+            caps_net_performance_dict[(int(split[0]), int(split[1]), int(split[2]))] = float(a_f.read())
+            prev_inds.append([int(split[0]), int(split[1]), int(split[2])])
+            prev_inds_fit.append(caps_net_performance_dict[(int(split[0]), int(split[1]), int(split[2]))])
+        else:
+            continue
+
+
+fill_caps_net_performance_dict()
+
+
+print(caps_net_performance_dict)
+print(prev_inds)
+print(prev_inds_fit)
 
 stats = tools.Statistics(key=lambda ind: ind.fitness.values)
 
@@ -16,8 +45,15 @@ stats.register("std", np.std)
 stats.register("min", np.min)
 stats.register("max", np.max)
 
+predefined_ind = 0
+
 
 def initialize_attribute():
+    global predefined_ind
+    if predefined_ind < len(prev_inds_fit):
+        tmp_predefined_ind = predefined_ind
+        predefined_ind = predefined_ind + 1
+        return prev_inds[tmp_predefined_ind]
     a_caps1_n_maps = random.randint(20, 39)
     a_caps1_n_dims = random.randint(5, 24)
     a_caps2_n_dims = random.randint(10, 29)
@@ -110,13 +146,13 @@ def main():
         record = stats.compile(pop)
         print(record)
 
-        tmp_file_name_1 = './' + 'generation_' + str(g) + '.txt'
+        tmp_file_name_1 = './generated_files/' + 'generation_' + str(g) + '.txt'
         with open(tmp_file_name_1, 'a') as out:
             out.write(str(record))
 
         logbook.record(gen=g, **record)
 
-        tmp_file_name_2 = './' + 'generation_' + str(g) + '.pk'
+        tmp_file_name_2 = './generated_files/' + 'generation_' + str(g) + '.pk'
         import pickle
         with open(tmp_file_name_2, 'wb') as handle:
             pickle.dump(logbook, handle)
